@@ -1,7 +1,5 @@
-var webpackConfig = require('./webpack.config');
-webpackConfig.entry = {};
-webpackConfig.plugins = [];
-webpackConfig.devtool = 'inline-source-map';
+// Karma configuration
+// Generated on Tue Jul 04 2017 10:12:19 GMT+0200 (Paris, Madrid (heure d’été))
 
 module.exports = function (config) {
     config.set({
@@ -35,9 +33,32 @@ module.exports = function (config) {
             'src/**/*.spec.js': ['webpack']
         },
 
-        webpack: webpackConfig,
+        webpack: {
+            resolve: {
+                extensions: [".js", ".jsx"]
+            },
+            module: {
+                rules: [
+                    { test: /\.jsx?$/, exclude: [/node_modules/], use: "babel-loader" }
+                ]
+            },
+            externals: {
+                'react/addons': true,
+                'react/lib/ExecutionEnvironment': true,
+                'react/lib/ReactContext': true,
+                'react-addons-test-utils': true,
+                fs: '{}'
+            },
+            node: {
+                fs: 'empty'
+            },
+        },
+
         webpackMiddleware: {
-            stats: { chunks: false },
+            stats: {
+                colors: true,
+                chunks: false
+            }
         },
 
         plugins: [
