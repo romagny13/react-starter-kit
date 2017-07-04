@@ -130,7 +130,7 @@ Add preprocessors (karma.conf.js):
 
 Add webpack
 ```js
- webpack: {
+webpack: {
     resolve: {
         extensions: [".js", ".jsx"]
     },
@@ -138,6 +138,16 @@ Add webpack
         rules: [
             { test: /\.jsx?$/, exclude: [/node_modules/], use: "babel-loader" }
         ]
+    },
+    externals: {
+        'react/addons': true,
+        'react/lib/ExecutionEnvironment': true,
+        'react/lib/ReactContext': true,
+        'react-addons-test-utils': true,
+        fs: '{}'
+    },
+    node: {
+        fs: 'empty'
     },
 },
 
