@@ -59,7 +59,7 @@ And for tests
 npm i redux-mock-store -D
 ```
 
-## memento
+## Memento
 
 ### Before
 
