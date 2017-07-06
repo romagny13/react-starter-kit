@@ -1,37 +1,65 @@
 # React Starter Kit
 
-_Last update: 04/07/17_
+> Ultra light version
+
+_Last update: 06/07/17_
+
+* React 15.6
+* Webpack 3.0
 
 ## Alternative
 
 Use [create-react-app](https://github.com/facebookincubator/create-react-app) (+ "npm run eject" to see configuration)
 
-
 ## Usage
+
+Install dependencies
 
 ```
 npm i
+```
+
+* Dev (run example)
+
+```
 npm run dev
 ```
 Go http://localhost:8080/
 
-Test (Karma + PhantomJS)
+* Build
+
+```
+npm run build
+```
+
+* Test (Karma + PhantomJS)
 ```
 npm run test
 ```
 
-Lint (esLint)
+* eslint
 ```
 npm run lint
 ```
 
-Build (Webpack or Rollup)
+## Install React Router and Redux
+
+React-Router
 ```
-npm run build:webpack
-npm run build
+npm i react-router -S
 ```
 
-## Memento 
+Redux
+```
+npm i redux react-redux redux-thunk -S
+```
+
+And for tests
+```
+npm i redux-mock-store -D
+```
+
+## memento
 
 ### Before
 
@@ -48,187 +76,240 @@ VS Code Extensions:
 npm init -f
 ```
 
-### Babel
+### Webpack + React + Babel
+
+* Webpack
 
 ```
-npm i babel-cli babel-loader babel-preset-latest babel-preset-react -D
-```
-Loaders:
-* (babel-loader)
-* css-loader
-* style-loader
-* file-loader
-* url-loader
-* json-loader
-
-```
-npm i css-loader style-loader file-loader url-loader json-loader -D
+npm i webpack -D
 ```
 
-.babelrc
+Babel
 
 ```
-{
-  "presets": ["react","latest"]
-}
+npm i babel-cli babel-loader babel-preset-latest -D
 ```
 
-### React
+* React
 
 ```
 npm i react react-dom -S
 ```
 
-React-Router
+preset for React
+
 ```
-npm i react-router -S
+npm i babel-preset-react -D
 ```
 
-Redux
-```
-npm i redux react-redux redux-thunk -S
+* .babelrc
+
+```json
+{
+  "presets": ["react","latest"]
+}
 ```
 
-Create "src" + "dist" + index.js 
+### Build
+
+Plugins (minification, etc.)
+
+```js
+var path = require('path'),
+    webpack = require('webpack');
+
+module.exports = {
+    entry: './src/index.js',
+    output: {
+        path: path.resolve(__dirname, "./dist"),
+        publicPath: "/dist/",
+        filename: 'mylib.min.js',
+        libraryTarget: 'umd',
+        library: 'MyLib'
+    },
+    module: {
+        rules: [
+            { test: /\.(js|jsx)$/, exclude: [/node_modules/], use: "babel-loader" }
+        ]
+    },
+    resolve: {
+        extensions: [".js", ".jsx"]
+    },
+    plugins: [
+        new webpack.LoaderOptionsPlugin({
+            minimize: true,
+            debug: false
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            beautify: false,
+            mangle: {
+                screw_ie8: true,
+                keep_fnames: true
+            },
+            compress: {
+                screw_ie8: true
+            },
+            comments: false
+        })
+    ]
+};
+```
+
+NPM Script
+
+```json
+"scripts": {
+    "build": "webpack --config webpack.prod --progress --hide-modules"
+}
+```
+
+```
+npm run build
+```
+
+### Dev Server
+
+```
+npm i webpack-dev-server -D
+```
+
+```js
+var path = require('path'),
+    webpack = require('webpack');
+
+module.exports = {
+    entry: './example/es6/index.js',
+    output: {
+        path: path.resolve(__dirname, "./dist"),
+        publicPath: "/dist/",
+        filename: 'build.js'
+    },
+    module: {
+        rules: [
+            { test: /\.(js|jsx)$/, exclude: [/node_modules/], use: "babel-loader" }
+        ]
+    },
+    resolve: {
+        extensions: [".js", ".jsx"]
+    },
+    devServer: {
+        contentBase: './example/es6',
+        historyApiFallback: true,
+        noInfo: true
+    },
+    devtool: "#eval-source-map"
+};
+
+```
+
+NPM Script
+```json
+"scripts": {
+    "dev": "webpack-dev-server --config webpack.dev --open --inline --hot"
+},
+```
+
+```
+npm run dev
+```
 
 ### Test
 
-#### Mocha
+Mocha
 
 ```
-npm i chai mocha -D
+npm i chai mocha @types/chai @types/mocha -D
 ```
 
-types
+Karma
+
 ```
-npm i @types/chai @types/mocha -D
+npm i karma -D
 ```
 
-React
 ```
-npm i enzyme react-addons-test-utils nock redux-mock-store -D
+npm i karma karma-mocha karma-phantomjs-launcher karma-webpack -D
 ```
-
-#### Karma
 
 karma.conf.js
 ```
 karma init
 ```
+
 Mocha + PhantomJS + patterns ('test/index.js' and 'src/**/*.spec.ts')
 
-With Mocha
-```
-npm i karma karma-mocha karma-phantomjs-launcher karma-webpack -D
-```
-
-Add preprocessors (karma.conf.js):
-```
-'test/index.js': ['webpack'],
-'src/**/*.spec.ts': ['webpack']
-```
-
-Add webpack
+files 
 ```js
-webpack: {
-    resolve: {
-        extensions: [".js", ".jsx"]
-    },
-    module: {
+files: [
+      'node_modules/babel-polyfill/browser.js',
+      './test/index.js',
+      './src/**/*.spec.js'
+    ],
+```
+
+preprocessors
+```js
+ preprocessors: {
+            'test/index.js': ['webpack'],
+            'src/**/*.spec.js': ['webpack']
+        },
+```
+
+webpack
+```js
+ webpack: {
+      module: {
         rules: [
-            { test: /\.jsx?$/, exclude: [/node_modules/], use: "babel-loader" }
+          { test: /\.(js|jsx)$/, exclude: [/node_modules/], use: "babel-loader" }
         ]
-    },
-    externals: {
+      },
+      externals: {
         'react/addons': true,
         'react/lib/ExecutionEnvironment': true,
         'react/lib/ReactContext': true,
         'react-addons-test-utils': true,
         fs: '{}'
+      }
     },
-    node: {
-        fs: 'empty'
-    },
-},
 
 webpackMiddleware: {
-    stats: {
-        colors: true
-    }
-},
+      stats: {
+        colors: true,
+        chunks: false
+      }
+    },
 ```
-Set singleRun to true (karma.conf.js)
 
-#### Create tests
-
-Create "test" directory + index.js
-
+plugins
 ```js
-require('./first.spec');
+ plugins: [
+            require('karma-webpack'),
+            require('karma-mocha'),
+            require('karma-phantomjs-launcher')
+        ],
 ```
 
-Create test files. Example 'first.spec.js'
-```js
-import { assert } from 'chai';
-
-describe('Test', () => {
-    it('Should work', () => {
-        let hello = 'hello!';
-        assert.equal(hello, 'hello!');
-    });
-});
-```
-
-Run test:
-```
-npm run test
-```
-
-### Webpack
-
-```
-npm i  webpack webpack-dev-server -D
-```
-
-Create webpack.config.js
-
-### NPM Scripts
-
-```
-npm i cross-env -D
-```
-
-In development
-```
-npm run dev
-```
-
-Test
-```
-npm run test
-```
-
-Lint
-```
-npm run lint
-```
-
+NPM Script
 ```json
 "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --inline --hot",
-    "build:webpack": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "build": "node build/build.js",
-    "lint": "esw src --color",
-    "lint:watch": "npm run lint -- --watch",
     "test": "karma start"
   },
-  ```
+```
 
-Build with Rollup
+React
+
 ```
-npm i rollup rollup-plugin-buble uglify-js -D
+npm i enzyme react-test-renderer nock -D
 ```
-Create directory "build" with rollup configuration
+And with Redux
+```
+npm i redux-mock-store -D
+```
+
+```
+npm test
+```
+
 
 ### Editor config
 
@@ -255,7 +336,7 @@ trim_trailing_whitespace = true
 trim_trailing_whitespace = false
 ```
 
-### esLint
+### eslint
 ```
 npm i eslint eslint-plugin-import eslint-watch -D
 ```
@@ -270,12 +351,12 @@ Create eslint configuration file
 eslint --init
 ```
 
-+ extension: esLint for Visual Studio Code
++ extension: eslint for Visual Studio Code
 
 ### Travis
 
 .travis.yml
-```
+```js
 language: node_js
 node_js:
   - "6"

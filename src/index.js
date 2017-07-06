@@ -1,15 +1,2 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { Provider } from 'react-redux';
-import store from './store/store';
-
-import './styles/styles.css';
-
-import App from './components/App';
-
-render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
-    document.getElementById('app')
-);
+export * from './components/MyComponent1';
+export * from './components/MyComponent2';

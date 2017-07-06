@@ -1,1 +1,1 @@
-require('./first.spec');
+require('./MyComponent1.spec');
