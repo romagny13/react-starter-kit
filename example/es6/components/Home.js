@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { MyComponent1 } from '../../../src/index';
+/* import { MyComponent1 } from 'my-lib'; */
+// or
+import MyComponent1 from 'my-lib/components/MyComponent1';
 
 export const Home = () => {
     return (

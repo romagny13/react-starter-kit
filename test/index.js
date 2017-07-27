@@ -1,1 +1,0 @@
-require('./MyComponent1.spec');

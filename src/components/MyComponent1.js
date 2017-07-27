@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export class MyComponent1 extends Component {
+class MyComponent1 extends Component {
     render() {
         return (
             <div>
@@ -14,3 +14,4 @@ export class MyComponent1 extends Component {
 MyComponent1.propTypes = {
     title: PropTypes.string.isRequired
 };
+export default MyComponent1;

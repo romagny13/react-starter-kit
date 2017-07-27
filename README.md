@@ -1,8 +1,8 @@
 # React Starter Kit
 
-> Ultra light version
+> Ultra light version with Jest
 
-_Last update: 06/07/17_
+_Last update: 27/07/17_
 
 * React 15.6
 * Webpack 3.0
@@ -28,13 +28,20 @@ Go http://localhost:8080/
 
 * Build
 
+to create a dist directory with bundles
 ```
-npm run build
+npm run build:dist
 ```
 
-* Test (Karma + PhantomJS)
+To create a lib directory with CommonJS format
 ```
-npm run test
+npm run build:lib
+```
+
+
+* Test
+```
+npm t
 ```
 
 * eslint
@@ -213,103 +220,39 @@ NPM Script
 npm run dev
 ```
 
-### Test
+### Test (Jest)
 
-Mocha
-
-```
-npm i chai mocha @types/chai @types/mocha -D
-```
-
-Karma
+* [Documentation](https://facebook.github.io/jest/)
+* [expect](https://facebook.github.io/jest/docs/expect.html) 
 
 ```
-npm i karma -D
+npm i jest react-test-renderer enzyme react-addons-test-utils -D
 ```
-
+.babelrc
 ```
-npm i karma karma-mocha karma-phantomjs-launcher karma-webpack -D
+{
+  "presets": ["react","latest"]
+}
 ```
-
-karma.conf.js
-```
-karma init
-```
-
-Mocha + PhantomJS + patterns ('test/index.js' and 'src/**/*.spec.ts')
-
-files 
-```js
-files: [
-      'node_modules/babel-polyfill/browser.js',
-      './test/index.js',
-      './src/**/*.spec.js'
-    ],
-```
-
-preprocessors
-```js
- preprocessors: {
-            'test/index.js': ['webpack'],
-            'src/**/*.spec.js': ['webpack']
-        },
-```
-
-webpack
-```js
- webpack: {
-      module: {
-        rules: [
-          { test: /\.(js|jsx)$/, exclude: [/node_modules/], use: "babel-loader" }
-        ]
-      },
-      externals: {
-        'react/addons': true,
-        'react/lib/ExecutionEnvironment': true,
-        'react/lib/ReactContext': true,
-        'react-addons-test-utils': true,
-        fs: '{}'
-      }
-    },
-
-webpackMiddleware: {
-      stats: {
-        colors: true,
-        chunks: false
-      }
-    },
-```
-
-plugins
-```js
- plugins: [
-            require('karma-webpack'),
-            require('karma-mocha'),
-            require('karma-phantomjs-launcher')
-        ],
-```
-
 NPM Script
+```
+ "test": "jest"
+```
+
+Configuration package.json
 ```json
-"scripts": {
-    "test": "karma start"
-  },
+"jest": {
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js"
+    }
+  }
 ```
 
-React
+* [eslint plugin](https://www.npmjs.com/package/eslint-plugin-jest)
 
-```
-npm i enzyme react-test-renderer nock -D
-```
-And with Redux
-```
-npm i redux-mock-store -D
-```
-
-```
-npm test
-```
-
+to run `npm t`
 
 ### Editor config
 
