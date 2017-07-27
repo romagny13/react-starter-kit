@@ -12,7 +12,7 @@
     "build:commonjs": "babel ./src/ --out-dir ./lib/lib",
     "build:copy-files": "node scripts/copy-files.js && cpx \"./src/*.css\" ./lib/lib",
     "prebuild:lib": "rimraf lib",
-    "build:lib": "npm run build:dist && npm run build:commonjs && npm run build:copy-files"
+    "build:lib": "npm run build:commonjs && npm run build:copy-files"
   },
   "keywords": [],
   "author": "",
