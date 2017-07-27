@@ -28,7 +28,7 @@ Go http://localhost:8080/
 
 * Build
 
-to create a dist directory with bundles
+To create a dist directory with bundles
 ```
 npm run build:dist
 ```
