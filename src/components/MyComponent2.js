@@ -6,12 +6,12 @@ class MyComponent2 extends Component {
         return (
             <div>
                 <h2>MyComponent 2</h2>
-                <p>{this.props.title}</p>
+                <p>{this.props.message}</p>
             </div>
         );
     }
 }
 MyComponent2.propTypes = {
-    title: PropTypes.string.isRequired
+    message: PropTypes.string.isRequired
 };
 export default MyComponent2;

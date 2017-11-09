@@ -2,16 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class MyComponent1 extends Component {
+    state = {
+        title: 'My Component 1'
+    }
     render() {
         return (
             <div>
-                <h2>MyComponent 1</h2>
-                <p>{this.props.title}</p>
+                <h2>{this.state.title}</h2>
+                <p>{this.props.message}</p>
             </div>
         );
     }
 }
 MyComponent1.propTypes = {
-    title: PropTypes.string.isRequired
+    message: PropTypes.string.isRequired
 };
 export default MyComponent1;

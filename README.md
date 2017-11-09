@@ -2,9 +2,9 @@
 
 > Ultra light version with Jest
 
-_Last update: 27/07/17_
+_Last update: 11/09/17_
 
-* React 15.6
+* React 16.1
 * Webpack 3.0
 
 ## Alternative
@@ -94,13 +94,13 @@ npm i webpack -D
 Babel
 
 ```
-npm i babel-cli babel-loader babel-preset-latest -D
+npm i babel-cli babel-loader babel-preset-env babel-preset-stage-2  -D
 ```
 
 * React
 
 ```
-npm i react react-dom -S
+npm i react react-dom prop-types -S
 ```
 
 preset for React
@@ -113,7 +113,11 @@ npm i babel-preset-react -D
 
 ```json
 {
-  "presets": ["react","latest"]
+  "presets": [
+    "env",
+    "stage-2",
+    "react"
+  ]
 }
 ```
 
@@ -224,14 +228,20 @@ npm run dev
 
 * [Documentation](https://facebook.github.io/jest/)
 * [expect](https://facebook.github.io/jest/docs/expect.html) 
+* [Enzyme](http://airbnb.io/enzyme/)
 
 ```
-npm i jest react-test-renderer enzyme react-addons-test-utils -D
+npm i enzyme enzyme-adapter-react-16 -D
+npm i jest react-test-renderer react-addons-test-utils -D
 ```
 .babelrc
 ```
 {
-  "presets": ["react","latest"]
+  "presets": [
+    "env",
+    "stage-2",
+    "react"
+  ]
 }
 ```
 NPM Script
@@ -282,6 +292,7 @@ trim_trailing_whitespace = false
 ### eslint
 ```
 npm i eslint eslint-plugin-import eslint-watch -D
+npm i babel-eslint -D
 ```
 
 With React
